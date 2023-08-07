@@ -3,6 +3,8 @@
 A simple app to help my students understand backend development and cover it with automated tests. \
 This app is replication of employees-api, just without DB, all data will be stored inside JSON while application is running.
 
+Application is live on https://employees-api-i9ae.onrender.com/
+
 # Technical stack
 * Python
 * Flask
