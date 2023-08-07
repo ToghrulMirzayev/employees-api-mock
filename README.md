@@ -5,7 +5,6 @@ This app is replication of employees-api, just without DB, all data will be stor
 
 # Technical stack
 * Python
-* Postgres
 * Flask
 
 # Quick start
