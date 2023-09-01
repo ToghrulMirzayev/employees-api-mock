@@ -1,0 +1,13 @@
+version: '3'
+services:
+  html_app:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    ports:
+      - "80:80"
+    volumes:
+      - .:/app
+      - ./static:/usr/share/nginx/static
+      - ./templates:/usr/share/nginx/html
+      - .env:/app/.env
