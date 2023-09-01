@@ -16,6 +16,13 @@ PASSWORD = os.getenv("APP_PASSWORD")
 
 employees_data = []
 
+if os.getenv("DOCKER"):
+    HOST = '0.0.0.0'
+    PORT = 80
+else:
+    HOST = '127.0.0.1'
+    PORT = 5000
+
 
 @app.route('/generate-token', methods=['POST'])
 def generate_token():
@@ -153,4 +160,4 @@ def index():
 
 
 if __name__ == '__main__':
-    app.run()
+    app.run(host=HOST, port=PORT)
