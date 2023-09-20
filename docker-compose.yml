@@ -4,8 +4,8 @@ services:
     build:
       context: .
       dockerfile: Dockerfile
-    image: employees-api-product
-    container_name: employees-api-product-container
+    image: employees-api
+    container_name: employees-api-container
     ports:
       - "80:80"
     volumes:
