@@ -23,3 +23,6 @@ APP_PASSWORD='your password'
 ```
 * Run application using below command:
   * `python app.py`
+
+* Run application in Docker container use below command:
+  * `docker-compose up`
