@@ -15,6 +15,7 @@ USERNAME = os.getenv("APP_SUPERUSER")
 PASSWORD = os.getenv("APP_PASSWORD")
 
 employees_data = []
+skills_data = []
 
 if os.getenv("DOCKER"):
     HOST = '0.0.0.0'
@@ -152,6 +153,67 @@ def validate_token(token):
         return True
     except jwt.exceptions.DecodeError:
         return False
+
+
+@app.route('/about', methods=['GET'])
+def get_app_details():
+    return jsonify({'Code owner': "Toghrul Mirzayev",
+                    "App Description": "Playground for backend testing",
+                    "App version": "v2.0.0",
+                    "Contact details": [
+                        "togrul.mirzoev@gmail.com",
+                        "https://github.com/ToghrulMirzayev/employees-api-mock"
+                    ]})
+
+
+@app.route('/status', methods=['GET'])
+def get_status():
+    return jsonify({'status': "The service is up and running"})
+
+
+@app.route('/skills', methods=['GET', 'POST'])
+def manage_skills():
+    auth_token = request.headers.get('Authorization')
+    if not auth_token or not auth_token.startswith('Bearer '):
+        return jsonify({'message': 'Unauthorized'}), 401
+    token = auth_token.split(' ')[1]
+    if not validate_token(token):
+        return jsonify({'message': 'Invalid token'}), 401
+
+    if request.method == 'GET':
+        return jsonify({'skills': skills_data})
+    elif request.method == 'POST':
+        data = request.get_json()
+        new_skill = {
+            'skillId': len(skills_data) + 1,
+            'skill': data.get('skill')
+        }
+        skills_data.append(new_skill)
+        return jsonify({'message': 'Skill added'})
+
+
+@app.route('/skills/<int:skillId>', methods=['GET', 'DELETE'])
+def manage_skill(skillId):
+    auth_token = request.headers.get('Authorization')
+    if not auth_token or not auth_token.startswith('Bearer '):
+        return jsonify({'message': 'Unauthorized'}), 401
+    token = auth_token.split(' ')[1]
+    if not validate_token(token):
+        return jsonify({'message': 'Invalid token'}), 401
+
+    if request.method == 'GET':
+        skill = next((sk for sk in skills_data if sk['skillId'] == skillId), None)
+        if skill:
+            return jsonify(skill)
+        else:
+            return jsonify({'error': 'Skill not found'}), 404
+    elif request.method == 'DELETE':
+        skill = next((sk for sk in skills_data if sk['skillId'] == skillId), None)
+        if skill:
+            skills_data.remove(skill)
+            return jsonify({'message': 'Skill deleted'})
+        else:
+            return jsonify({'error': 'Skill not found'}), 404
 
 
 @app.route('/')
