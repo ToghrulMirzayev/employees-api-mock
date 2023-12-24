@@ -5,6 +5,8 @@ This app is replication of employees-api, just without DB, all data will be stor
 
 Application is live on https://employees-api-i9ae.onrender.com/
 
+API specs: https://employees-api-i9ae.onrender.com/apidocs/
+
 # Technical stack
 * Python
 * Flask
